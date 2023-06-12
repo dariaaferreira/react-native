@@ -63,6 +63,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 16,
     marginLeft: 16,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
   },
   profileImage: {
     width: 120,
@@ -139,7 +141,6 @@ const styles = StyleSheet.create({
   loginLink: {
     marginTop: 16,
     color: '#1B4371',
-    textDecorationLine: 'underline',
     textAlign: 'center',
     top: -60,
   },
