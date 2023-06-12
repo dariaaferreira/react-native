@@ -1,28 +1,28 @@
 import React from 'react';
-import photoBG from "../photoBG.jpg";
-import Icon from "react-native-vector-icons/AntDesign";
-import { View, TextInput, TouchableOpacity, Text, Pressable, StyleSheet, ImageBackground } from 'react-native';
+import { KeyboardAvoidingView, View, Image, TextInput, TouchableOpacity, Text, Pressable, StyleSheet } from 'react-native';
+import photoBG from '../photoBG.jpg';
 
-const LoginScreen = () => {
+const RegistrationScreen = () => {
   return (
-    <ImageBackground
-      source={photoBG}
-      style={styles.backgroundImage}
-      imageStyle={styles.backgroundImageStyle}
-    >
-      <View style={styles.container}>
+    <View style={styles.container}>
+      <Image
+        source={photoBG}
+        style={styles.backgroundImage}
+      />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1, justifyContent: 'flex-end' }}
+      >
         <View style={styles.formContainer}>
-
-
           <Text style={styles.titleHeader}>Увійти</Text>
 
           <View style={styles.containerInput}>
-          <TextInput style={styles.input} placeholder="Адреса електронної пошти" />
-          <TextInput style={[styles.input, styles.lastChildInput]} placeholder="Пароль" secureTextEntry={true} />
+            <TextInput style={styles.input} placeholder="Адреса електронної пошти" />
+            <TextInput style={[styles.input, styles.lastChildInput]} placeholder="Пароль" secureTextEntry={true} />
 
-          <Pressable style={styles.showPasswordButton}>
-            <Text style={styles.textInput}>Показати</Text>
-          </Pressable>
+            <Pressable style={styles.showPasswordButton}>
+              <Text style={styles.textInput}>Показати</Text>
+            </Pressable>
           </View>
 
           <TouchableOpacity
@@ -31,43 +31,40 @@ const LoginScreen = () => {
           >
             <Text style={styles.buttonText}>Увійти</Text>
           </TouchableOpacity>
-          
+
           <View style={styles.loginLinkContainer}>
             <Text style={styles.loginLinkText}>Немає акаунту?</Text>
             <TouchableOpacity>
-                <Text style={styles.loginLink}>Зареєструватися</Text>
+              <Text style={styles.loginLink}>Зареєструватися</Text>
             </TouchableOpacity>
           </View>
-
         </View>
-      </View>
-    </ImageBackground>
+      </KeyboardAvoidingView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  backgroundImage: {
-    flex: 1,
-  },
-  backgroundImageStyle: {
-    resizeMode: 'cover',
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-  },
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    top: 30,
+  },
+  backgroundImage: {
+    position: 'absolute',
+    width: '100%',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    resizeMode: 'cover',
+    zIndex: -1,
   },
   formContainer: {
     width: '100%',
-    height: '70%',
+    height: '60%',
+    marginTop: 'auto',
+    position: 'absolute',
     backgroundColor: 'white',
     alignItems: 'center',
-    marginRight: 16,
-    marginLeft: 16,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
   },
@@ -96,10 +93,10 @@ const styles = StyleSheet.create({
     marginBottom: 43,
   },
   containerInput: {
-    position: "relative",
+    position: 'relative',
   },
   textInput: {
-    color: "#1B4371",
+    color: '#1B4371',
     fontSize: 16,
     lineHeight: 18.75,
     fontWeight: 400,
@@ -128,20 +125,16 @@ const styles = StyleSheet.create({
   },
   loginLinkContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center', 
     marginTop: 16,
   },
   loginLinkText: {
     color: '#1B4371',
-    textAlign: 'center',
-    marginRight: 3,
   },
   loginLink: {
-    color: '#1B4371',
+    marginLeft: 3,
     textDecorationLine: 'underline',
-    textAlign: 'center',
+    color: '#1B4371',
   },
 });
 
-export default LoginScreen;
+export default RegistrationScreen;
