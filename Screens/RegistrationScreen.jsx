@@ -1,68 +1,71 @@
 import React from 'react';
-import photoBG from "../photoBG.jpg";
-import Icon from "react-native-vector-icons/AntDesign";
-import { View, Image, TextInput, TouchableOpacity, Text, Pressable, StyleSheet, ImageBackground } from 'react-native';
+import { KeyboardAvoidingView, View, Image, TextInput, TouchableOpacity, Text, Pressable, StyleSheet, ImageBackground } from 'react-native';
+import photoBG from '../photoBG.jpg';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const RegistrationScreen = () => {
   return (
-    <ImageBackground
-      source={photoBG}
-      style={styles.backgroundImage}
-      imageStyle={styles.backgroundImageStyle}
-    >
-      <View style={styles.container}>
+    <View style={styles.container}>
+      <Image
+        source={photoBG}
+        style={styles.backgroundImage}
+      />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1, justifyContent: 'flex-end' }}
+      >
         <View style={styles.formContainer}>
-          <Image style={styles.profileImage}></Image>
-          <Icon style={styles.icon} name="pluscircleo" />
+            <Image style={styles.profileImage} />
+            <Icon style={styles.icon} name='pluscircleo' />
+            <Text style={styles.titleHeader}>Реєстрація</Text>
 
-          <Text style={styles.titleHeader}>Реєстрація</Text>
+            <View style={styles.containerInput}>
+              <TextInput style={styles.input} placeholder='Логін' />
+              <TextInput style={styles.input} placeholder='Адреса електронної пошти' />
+              <TextInput style={[styles.input, styles.lastChildInput]} placeholder='Пароль' secureTextEntry={true} />
 
-          <View style={styles.containerInput}>
-          <TextInput style={styles.input} placeholder="Логін" />
-          <TextInput style={styles.input} placeholder="Адреса електронної пошти" />
-          <TextInput style={[styles.input, styles.lastChildInput]} placeholder="Пароль" secureTextEntry={true} />
+              <Pressable style={styles.showPasswordButton}>
+                <Text style={styles.textInput}>Показати</Text>
+              </Pressable>
+            </View>
 
-          <Pressable style={styles.showPasswordButton}>
-            <Text style={styles.textInput}>Показати</Text>
-          </Pressable>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => console.log('Зареєструватися натиснуто')}
+            >
+              <Text style={styles.buttonText}>Зареєструватися</Text>
+            </TouchableOpacity>
+            <Text style={styles.loginLink}>Вже є акаунт? Увійти</Text>
           </View>
 
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => console.log('Зареєструватися натиснуто')}
-          >
-            <Text style={styles.buttonText}>Зареєструватися</Text>
-          </TouchableOpacity>
-          <Text style={styles.loginLink}>Вже є акаунт? Увійти</Text>
-        </View>
-      </View>
-    </ImageBackground>
+      </KeyboardAvoidingView>
+    </View>
+
   );
 };
 
+
 const styles = StyleSheet.create({
-  backgroundImage: {
-    flex: 1,
-  },
-  backgroundImageStyle: {
-    resizeMode: 'cover',
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-  },
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    top: 20,
+  },
+  backgroundImage: {
+    position: 'absolute',
+    width: '100%',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    resizeMode: 'cover',
+    zIndex: -1,
   },
   formContainer: {
     width: '100%',
-    height: '70%',
+    height: '60%',
+    marginTop: 'auto',
+    position: 'absolute',
     backgroundColor: 'white',
     alignItems: 'center',
-    marginRight: 16,
-    marginLeft: 16,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
   },
@@ -74,14 +77,14 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   icon: {
-    position: "absolute",
+    position: 'absolute',
     top: 21,
     right: 125,
-    color: "#FF6C00",
+    color: '#FF6C00',
     fontSize: 25,
   },
   titleHeader: {
-    marginTop: 33,
+    marginTop: -27,
     marginBottom: 33,
     alignSelf: 'center',
     fontWeight: '500',
@@ -90,7 +93,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     letterSpacing: 0.01,
     color: '#212121',
-    top: -60,
   },
   input: {
     width: 343,
@@ -101,25 +103,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     backgroundColor: '#F6F6F6',
     borderRadius: 8,
-    top: -60,
   },
   lastChildInput: {
     marginBottom: 43,
   },
   containerInput: {
-    position: "relative",
+    position: 'relative',
   },
   textInput: {
-    color: "#1B4371",
+    color: '#1B4371',
     fontSize: 16,
     lineHeight: 18.75,
-    fontWeight: 400,
+    fontWeight: '400',
   },
   showPasswordButton: {
     position: 'absolute',
     right: 5,
-    bottom: 30,
-    top: 0,
+    bottom: 5,
+    top: 100,
     justifyContent: 'center',
     paddingHorizontal: 8,
   },
@@ -131,7 +132,6 @@ const styles = StyleSheet.create({
     height: 51,
     borderRadius: 100,
     justifyContent: 'center',
-    top: -60,
   },
   buttonText: {
     color: 'white',
@@ -142,7 +142,6 @@ const styles = StyleSheet.create({
     marginTop: 16,
     color: '#1B4371',
     textAlign: 'center',
-    top: -60,
   },
 });
 
