@@ -1,49 +1,82 @@
-import React from 'react';
-import { KeyboardAvoidingView, View, Image, TextInput, TouchableOpacity, Text, Pressable, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { KeyboardAvoidingView, 
+  View, 
+  Image, 
+  TextInput, 
+  TouchableOpacity, 
+  Text, 
+  Pressable, 
+  StyleSheet, 
+  TouchableWithoutFeedback,
+  Keyboard } from 'react-native';
 import photoBG from '../photoBG.jpg';
 
-const RegistrationScreen = () => {
+const LoginScreen = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const onLogin = () => {
+    console.log('Увійти натиснуто');
+    console.log('Email:', email);
+    console.log('Password:', password);
+
+    setEmail('');
+    setPassword('');
+  };
+
   return (
-    <View style={styles.container}>
-      <Image
-        source={photoBG}
-        style={styles.backgroundImage}
-      />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1, justifyContent: 'flex-end' }}
-      >
-        <View style={styles.formContainer}>
-          <Text style={styles.titleHeader}>Увійти</Text>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <Image
+          source={photoBG}
+          style={styles.backgroundImage}
+        />
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{ flex: 1, justifyContent: 'flex-end' }}
+        >
+          <View style={styles.formContainer}>
+            <Text style={styles.titleHeader}>Увійти</Text>
 
-          <View style={styles.containerInput}>
-            <TextInput style={styles.input} placeholder="Адреса електронної пошти" />
-            <TextInput style={[styles.input, styles.lastChildInput]} placeholder="Пароль" secureTextEntry={true} />
+            <View style={styles.containerInput}>
+              <TextInput
+                style={styles.input}
+                placeholder="Адреса електронної пошти"
+                value={email}
+                onChangeText={setEmail}
+              />
+              <TextInput
+                style={[styles.input, styles.lastChildInput]}
+                placeholder="Пароль"
+                secureTextEntry={true}
+                value={password}
+                onChangeText={setPassword}
+              />
 
-            <Pressable style={styles.showPasswordButton}>
-              <Text style={styles.textInput}>Показати</Text>
-            </Pressable>
-          </View>
+              <Pressable style={styles.showPasswordButton}>
+                <Text style={styles.textInput}>Показати</Text>
+              </Pressable>
+            </View>
 
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => console.log('Увійти натиснуто')}
-          >
-            <Text style={styles.buttonText}>Увійти</Text>
-          </TouchableOpacity>
-
-          <View style={styles.loginLinkContainer}>
-            <Text style={styles.loginLinkText}>Немає акаунту?</Text>
-            <TouchableOpacity>
-              <Text style={styles.loginLink}>Зареєструватися</Text>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={onLogin}
+            >
+              <Text style={styles.buttonText}>Увійти</Text>
             </TouchableOpacity>
+
+            <View style={styles.loginLinkContainer}>
+              <Text style={styles.loginLinkText}>Немає акаунту?</Text>
+              <TouchableOpacity>
+                <Text style={styles.loginLink}>Зареєструватися</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </KeyboardAvoidingView>
-    </View>
+        </KeyboardAvoidingView>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -137,4 +170,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegistrationScreen;
+export default LoginScreen;

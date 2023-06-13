@@ -1,46 +1,87 @@
-import React from 'react';
-import { KeyboardAvoidingView, View, Image, TextInput, TouchableOpacity, Text, Pressable, StyleSheet, ImageBackground } from 'react-native';
+import React, { useState} from 'react';
+import { KeyboardAvoidingView, 
+  View, 
+  Image, 
+  TextInput, 
+  TouchableOpacity, 
+  Text, 
+  Pressable, 
+  StyleSheet, 
+  TouchableWithoutFeedback, 
+  Keyboard } from 'react-native';
 import photoBG from '../photoBG.jpg';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 const RegistrationScreen = () => {
+  const [login, setLogin] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const onRegistration = () => {
+    console.log('Зареєструватися натиснуто')
+    console.log('Login:', login);
+    console.log('Email:', email);
+    console.log('Password:', password);
+
+    setLogin('');
+    setEmail('');
+    setPassword('');
+  };
+
   return (
-    <View style={styles.container}>
-      <Image
-        source={photoBG}
-        style={styles.backgroundImage}
-      />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1, justifyContent: 'flex-end' }}
-      >
-        <View style={styles.formContainer}>
-            <Image style={styles.profileImage} />
-            <Icon style={styles.icon} name='pluscircleo' />
-            <Text style={styles.titleHeader}>Реєстрація</Text>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <Image
+          source={photoBG}
+          style={styles.backgroundImage}
+        />
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{ flex: 1, justifyContent: 'flex-end' }}
+        >
+          <View style={styles.formContainer}>
+              <Image style={styles.profileImage} />
+              <Icon style={styles.icon} name='pluscircleo' />
+              <Text style={styles.titleHeader}>Реєстрація</Text>
 
-            <View style={styles.containerInput}>
-              <TextInput style={styles.input} placeholder='Логін' />
-              <TextInput style={styles.input} placeholder='Адреса електронної пошти' />
-              <TextInput style={[styles.input, styles.lastChildInput]} placeholder='Пароль' secureTextEntry={true} />
+              <View style={styles.containerInput}>
+                <TextInput 
+                  style={styles.input} 
+                  placeholder="Логін" 
+                  value={login}
+                  onChangeText={setLogin}
+                />
+                <TextInput 
+                  style={styles.input}
+                  placeholder="Адреса електронної пошти"
+                  value={email}
+                  onChangeText={setEmail}
+                />
+                <TextInput 
+                  style={[styles.input, styles.lastChildInput]}
+                  placeholder="Пароль"
+                  secureTextEntry={true}
+                  value={password}
+                  onChangeText={setPassword}
+                />
 
-              <Pressable style={styles.showPasswordButton}>
-                <Text style={styles.textInput}>Показати</Text>
-              </Pressable>
+                <Pressable style={styles.showPasswordButton}>
+                  <Text style={styles.textInput}>Показати</Text>
+                </Pressable>
+              </View>
+
+              <TouchableOpacity
+                style={styles.button}
+                onPress={onRegistration}
+              >
+                <Text style={styles.buttonText}>Зареєструватися</Text>
+              </TouchableOpacity>
+              <Text style={styles.loginLink}>Вже є акаунт? Увійти</Text>
             </View>
 
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => console.log('Зареєструватися натиснуто')}
-            >
-              <Text style={styles.buttonText}>Зареєструватися</Text>
-            </TouchableOpacity>
-            <Text style={styles.loginLink}>Вже є акаунт? Увійти</Text>
-          </View>
-
-      </KeyboardAvoidingView>
-    </View>
-
+        </KeyboardAvoidingView>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
