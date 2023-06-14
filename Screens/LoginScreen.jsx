@@ -14,6 +14,7 @@ import photoBG from '../photoBG.jpg';
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const onLogin = () => {
     console.log('Увійти натиснуто');
@@ -48,12 +49,15 @@ const LoginScreen = () => {
               <TextInput
                 style={[styles.input, styles.lastChildInput]}
                 placeholder="Пароль"
-                secureTextEntry={true}
+                secureTextEntry={!showPassword}
                 value={password}
                 onChangeText={setPassword}
               />
 
-              <Pressable style={styles.showPasswordButton}>
+              <Pressable 
+                style={styles.showPasswordButton}
+                onPress={() => setShowPassword(!showPassword)}
+              >
                 <Text style={styles.textInput}>Показати</Text>
               </Pressable>
             </View>
