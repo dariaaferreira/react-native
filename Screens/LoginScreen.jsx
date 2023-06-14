@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { KeyboardAvoidingView, 
   View, 
   Image, 
@@ -12,6 +13,7 @@ import { KeyboardAvoidingView,
 import photoBG from '../photoBG.jpg';
 
 const LoginScreen = () => {
+  const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -58,8 +60,9 @@ const LoginScreen = () => {
                 style={styles.showPasswordButton}
                 onPress={() => setShowPassword(!showPassword)}
               >
-                <Text style={styles.textInput}>Показати</Text>
+                <Text style={styles.textInput}>{showPassword ? 'Приховати' : 'Показати'}</Text>
               </Pressable>
+
             </View>
 
             <TouchableOpacity
@@ -71,7 +74,9 @@ const LoginScreen = () => {
 
             <View style={styles.loginLinkContainer}>
               <Text style={styles.loginLinkText}>Немає акаунту?</Text>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Registration")}
+              >
                 <Text style={styles.loginLink}>Зареєструватися</Text>
               </TouchableOpacity>
             </View>
@@ -81,6 +86,8 @@ const LoginScreen = () => {
     </TouchableWithoutFeedback>
   );
 };
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

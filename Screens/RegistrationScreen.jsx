@@ -1,4 +1,5 @@
 import React, { useState} from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { KeyboardAvoidingView, 
   View, 
   Image, 
@@ -13,6 +14,7 @@ import photoBG from '../photoBG.jpg';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 const RegistrationScreen = () => {
+  const navigation = useNavigation();
   const [login, setLogin] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -67,11 +69,12 @@ const RegistrationScreen = () => {
                 />
 
                 <Pressable 
-                  style={styles.showPasswordButton} 
+                  style={styles.showPasswordButton}
                   onPress={() => setShowPassword(!showPassword)}
                 >
-                  <Text style={styles.textInput}>Показати</Text>
+                  <Text style={styles.textInput}>{showPassword ? 'Приховати' : 'Показати'}</Text>
                 </Pressable>
+
               </View>
 
               <TouchableOpacity
@@ -80,14 +83,23 @@ const RegistrationScreen = () => {
               >
                 <Text style={styles.buttonText}>Зареєструватися</Text>
               </TouchableOpacity>
-              <Text style={styles.loginLink}>Вже є акаунт? Увійти</Text>
-            </View>
 
+              <View style={styles.loginLinkContainer}>
+                <Text style={styles.loginLinkText}>Вже є акаунт?</Text>
+                <TouchableOpacity 
+                  title="Go to Login"
+                  onPress={() => navigation.navigate("Login")}
+                  >
+                  <Text style={styles.loginLink}>Увійти</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
         </KeyboardAvoidingView>
       </View>
     </TouchableWithoutFeedback>
   );
 };
+
 
 
 const styles = StyleSheet.create({
@@ -106,7 +118,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     width: '100%',
-    height: '60%',
+    height: '68%',
     marginTop: 'auto',
     position: 'absolute',
     backgroundColor: 'white',
@@ -183,10 +195,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  loginLink: {
+  loginLinkContainer: {
+    flexDirection: 'row',
     marginTop: 16,
+  },
+  loginLinkText: {
     color: '#1B4371',
-    textAlign: 'center',
+  },
+  loginLink: {
+    marginLeft: 3,
+    textDecorationLine: 'underline',
+    color: '#1B4371',
   },
 });
 
