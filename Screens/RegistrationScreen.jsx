@@ -10,7 +10,7 @@ import { KeyboardAvoidingView,
   StyleSheet, 
   TouchableWithoutFeedback, 
   Keyboard } from 'react-native';
-import photoBG from '../photoBG.jpg';
+import photoBG from '../Images/photoBG.jpg';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 const RegistrationScreen = () => {
@@ -19,16 +19,14 @@ const RegistrationScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [focusedInput, setFocusedInput] = useState(null);
 
-  const onRegistration = () => {
-    console.log('Зареєструватися натиснуто')
-    console.log('Login:', login);
-    console.log('Email:', email);
-    console.log('Password:', password);
+  const handleInputFocus = (inputText) => {
+    setFocusedInput(inputText);
+  };
 
-    setLogin('');
-    setEmail('');
-    setPassword('');
+  const handleInputBlur = () => {
+    setFocusedInput(null);
   };
 
   return (
@@ -43,29 +41,36 @@ const RegistrationScreen = () => {
           style={{ flex: 1, justifyContent: 'flex-end' }}
         >
           <View style={styles.formContainer}>
-              <Image style={styles.profileImage} />
+              <Image 
+              style={styles.profileImage} />
               <Icon style={styles.icon} name='pluscircleo' />
               <Text style={styles.titleHeader}>Реєстрація</Text>
 
               <View style={styles.containerInput}>
                 <TextInput 
-                  style={styles.input} 
+                  style={[styles.input, focusedInput === "login" && styles.focus]} 
                   placeholder="Логін" 
                   value={login}
                   onChangeText={setLogin}
+                  onFocus={() => handleInputFocus("login")}
+                  onBlur={handleInputBlur}
                 />
                 <TextInput 
-                  style={styles.input}
+                  style={[styles.input, focusedInput === "email" && styles.focus]}
                   placeholder="Адреса електронної пошти"
                   value={email}
                   onChangeText={setEmail}
+                  onFocus={() => handleInputFocus("email")}
+                  onBlur={handleInputBlur}
                 />
                 <TextInput 
-                  style={[styles.input, styles.lastChildInput]}
+                  style={[styles.input, styles.lastChildInput, focusedInput === "password" && styles.focus]}
                   placeholder="Пароль"
                   secureTextEntry={!showPassword}
                   value={password}
                   onChangeText={setPassword}
+                  onFocus={() => handleInputFocus("password")}
+                  onBlur={handleInputBlur}
                 />
 
                 <Pressable 
@@ -79,7 +84,8 @@ const RegistrationScreen = () => {
 
               <TouchableOpacity
                 style={styles.button}
-                onPress={onRegistration}
+                title="Go to Home"
+                onPress={() => navigation.navigate('Home')}
               >
                 <Text style={styles.buttonText}>Зареєструватися</Text>
               </TouchableOpacity>
@@ -172,6 +178,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 18.75,
     fontWeight: '400',
+  },
+  focus: {
+    borderColor: "#FF6C00",
+    borderWidth: 1,
   },
   showPasswordButton: {
     position: 'absolute',
