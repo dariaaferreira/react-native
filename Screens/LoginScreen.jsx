@@ -10,21 +10,21 @@ import { KeyboardAvoidingView,
   StyleSheet, 
   TouchableWithoutFeedback,
   Keyboard } from 'react-native';
-import photoBG from '../photoBG.jpg';
+  import photoBG from '../Images/photoBG.jpg';
 
 const LoginScreen = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [focusedInput, setFocusedInput] = useState(null);
 
-  const onLogin = () => {
-    console.log('Увійти натиснуто');
-    console.log('Email:', email);
-    console.log('Password:', password);
+  const handleInputFocus = (inputText) => {
+    setFocusedInput(inputText);
+  };
 
-    setEmail('');
-    setPassword('');
+  const handleInputBlur = () => {
+    setFocusedInput(null);
   };
 
   return (
@@ -43,17 +43,21 @@ const LoginScreen = () => {
 
             <View style={styles.containerInput}>
               <TextInput
-                style={styles.input}
+                style={[styles.input, focusedInput === "email" && styles.focus]}
                 placeholder="Адреса електронної пошти"
                 value={email}
                 onChangeText={setEmail}
+                onFocus={() => handleInputFocus("email")}
+                onBlur={handleInputBlur}
               />
               <TextInput
-                style={[styles.input, styles.lastChildInput]}
+                style={[styles.input, styles.lastChildInput, focusedInput === "password" && styles.focus]}
                 placeholder="Пароль"
                 secureTextEntry={!showPassword}
                 value={password}
                 onChangeText={setPassword}
+                onFocus={() => handleInputFocus("password")}
+                onBlur={handleInputBlur}
               />
 
               <Pressable 
@@ -67,7 +71,8 @@ const LoginScreen = () => {
 
             <TouchableOpacity
               style={styles.button}
-              onPress={onLogin}
+              title="Go to Home"
+              onPress={() => navigation.navigate('Home')}
             >
               <Text style={styles.buttonText}>Увійти</Text>
             </TouchableOpacity>
@@ -144,6 +149,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 18.75,
     fontWeight: 400,
+  },
+  focus: {
+    borderColor: "#FF6C00",
+    borderWidth: 1,
   },
   showPasswordButton: {
     position: 'absolute',
