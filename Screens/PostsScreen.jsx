@@ -4,19 +4,23 @@ import Avatar from '../Images/Avatar.jpg';
 import { Header } from "../Components/Header";
 
 const PostsScreen = () => (
-    <View style={styles.container}>
-    <Header pageTitle="Публікації" />
+  <View style={styles.container}>
+    <Header
+      pageTitle="Публікації"
+      showLogoutButton={true}
+      // onBackButtonPress={() => navigation.navigate("Login")}
+    />
 
-    <View style={styles.user}>  
-        <Image
-          source={Avatar}
-          style={styles.avatar}
-        />
+    <View style={styles.user}>
+      <Image
+        source={Avatar}
+        style={styles.avatar}
+      />
 
-        <View style={styles.description}> 
-          <Text style={styles.name}>Natali Romanova</Text>
-          <Text>email@example.com</Text>
-        </View>
+      <View style={styles.description}>
+        <Text style={styles.name}>Natali Romanova</Text>
+        <Text>email@example.com</Text>
+      </View>
     </View>
   </View>
 );
@@ -39,7 +43,7 @@ const styles = StyleSheet.create({
   avatar: {
     width: 60,
     height: 60,
-    borderRadius: 16, 
+    borderRadius: 16,
   },
   description: {
     flexDirection: 'column',
@@ -47,7 +51,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 13,
-    fontWeight: 700,
+    fontWeight: '700',
     lineHeight: 15.23,
   },
 });

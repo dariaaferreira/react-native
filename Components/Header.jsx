@@ -1,42 +1,57 @@
 import { View, Text, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
-export const Header = (props) => {
-  const { pageTitle } = props;
+export const Header = ({ pageTitle, showBackButton, onBackButtonPress, showLogoutButton, onLogoutButtonPress }) => {
+
   return (
-    <>
-      <View style={styles.container}>
-        <Text style={styles.text}>{pageTitle}</Text>
-      </View>
-      <Icon style={styles.icon} size={24} name='logout'/>
-    </>
+    <View style={styles.container}>
+      {showBackButton ? (
+        <Icon
+          style={styles.backButton}
+          size={24}
+          name="arrow-back"
+          onPress={onBackButtonPress}
+        />
+      ) : null}
+      <Text style={styles.text}>{pageTitle}</Text>
+      {showLogoutButton ? (
+        <Icon
+          style={styles.logoutButton}
+          size={24}
+          name="logout"
+          onPress={onLogoutButtonPress}
+        />
+      ) : null}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    width: '100%',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    width: "100%",
     height: 44,
-    position: 'relative',
-    borderBottomColor: '#9C9C9C',
+    borderBottomColor: "#9C9C9C",
     borderBottomWidth: 1,
   },
-
+  backButton: {
+    position: "absolute",
+    left: 16,
+    color: "#BDBDBD",
+  },
   text: {
-    fontWeight: 500,
+    flex: 1,
+    textAlign: "center",
+    fontWeight: "500",
     fontSize: 17,
     lineHeight: 22,
-    color: '#212121',
+    color: "#212121",
   },
-  icon: {
-    position: 'absolute',
-    right: 20,
-    top: 44,
-    color: '#BDBDBD',
+  logoutButton: {
+    position: "absolute",
+    right: 16,
+    color: "#BDBDBD",
   },
 });
