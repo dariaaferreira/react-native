@@ -4,7 +4,7 @@ import { Header } from '../Components/Header';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const CreatePostsScreen = ({ navigation }) => (
+const CreatePostsScreen = () => (
   <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
       <Header
