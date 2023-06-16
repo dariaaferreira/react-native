@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from 'react-native-vector-icons/AntDesign';
 import PostsScreen from './PostsScreen';
@@ -65,7 +65,12 @@ const Home = () => {
         <Tabs.Screen
           name='CreatePostsScreen'
           component={CreatePostsScreen}
-          options={{ headerShown: false }}
+          options={{ 
+            headerShown: false,
+            tabBarStyle: {
+              display: 'none',
+          }, }}
+        
         />
         <Tabs.Screen
           name='ProfileScreen'

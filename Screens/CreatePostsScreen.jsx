@@ -1,8 +1,9 @@
 import React from 'react';
-import { KeyboardAvoidingView, View, ImageBackground, TextInput, TouchableOpacity, Text, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { KeyboardAvoidingView, View, ImageBackground, TextInput, TouchableOpacity, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, Pressable } from 'react-native';
 import { Header } from '../Components/Header';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import IconTrash from 'react-native-vector-icons/Feather';
 
 const CreatePostsScreen = () => (
   <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -50,7 +51,10 @@ const CreatePostsScreen = () => (
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Опубліковати</Text>
         </TouchableOpacity>
-
+        
+        <Pressable style={styles.iconRemove}>
+            <IconTrash name='trash-2' size={24} style={{ color: '#BDBDBD' }} />
+        </Pressable>
       </KeyboardAvoidingView>
     </View>
   </TouchableWithoutFeedback>
@@ -112,6 +116,18 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#BDBDBD',
     fontSize: 16,
+  },
+  iconRemove: {
+    width: 70,
+    height: 40,
+    backgroundColor: '#F6F6F6',
+    marginTop: 'auto',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: 34,
+    borderRadius: 20,
   },
 });
 
