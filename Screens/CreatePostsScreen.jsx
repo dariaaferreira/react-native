@@ -1,64 +1,69 @@
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { KeyboardAvoidingView, View, ImageBackground, TextInput, TouchableOpacity, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, Pressable } from 'react-native';
 import { Header } from '../Components/Header';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import IconTrash from 'react-native-vector-icons/Feather';
 
-const CreatePostsScreen = () => (
-  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <View style={styles.container}>
-      <Header
-        pageTitle='Створити публікацію'
-        showBackButton={true}
-        // onBackButtonPress={() => navigation.navigate('PostsScreen')}
-      />
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
-        <ImageBackground style={styles.postImage}>
-          <View style={styles.icon}>
-            <FontAwesome
-              name='camera'
+const CreatePostsScreen = () => {
+  const navigation = useNavigation();
+
+  return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <Header
+          pageTitle='Створити публікацію'
+          showBackButton={true}
+          onBackButtonPress={() => navigation.goBack()}
+        />
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
+          <ImageBackground style={styles.postImage}>
+            <View style={styles.icon}>
+              <FontAwesome
+                name='camera'
+                size={24}
+                style={{ color: '#BDBDBD', opacity: 0.5 }}
+              />
+            </View>
+          </ImageBackground>
+
+          <Text style={styles.buttonText}>Завантажте фото</Text>
+
+          <View style={styles.containerInput}>
+            <TextInput
+              style={styles.input}
+              placeholder='Назва...'
+            />
+            <EvilIcons
+              name='location'
               size={24}
-              style={{ color: '#BDBDBD', opacity: 0.5 }}
+              style={{
+                position: 'absolute',
+                top: 80,
+                left: 0,
+                color: '#BDBDBD',
+                opacity: 0.5,
+              }}
+            />
+            <TextInput
+              style={[styles.input, styles.inputIcon, styles.lastChildInput]}
+              placeholder='Місцевість...'
             />
           </View>
-        </ImageBackground>
 
-        <Text style={styles.buttonText}>Завантажте фото</Text>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Опубліковати</Text>
+          </TouchableOpacity>
 
-        <View style={styles.containerInput}>
-          <TextInput
-            style={styles.input}
-            placeholder='Назва...'
-          />
-          <EvilIcons
-            name='location'
-            size={24}
-            style={{
-              position: 'absolute',
-              top: 80,
-              left: 0,
-              color: '#BDBDBD',
-              opacity: 0.5,
-            }}
-          />
-          <TextInput
-            style={[styles.input, styles.inputIcon, styles.lastChildInput]}
-            placeholder='Місцевість...'
-          />
-        </View>
-
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Опубліковати</Text>
-        </TouchableOpacity>
-        
-        <Pressable style={styles.iconRemove}>
+          <Pressable style={styles.iconRemove}>
             <IconTrash name='trash-2' size={24} style={{ color: '#BDBDBD' }} />
-        </Pressable>
-      </KeyboardAvoidingView>
-    </View>
-  </TouchableWithoutFeedback>
-);
+          </Pressable>
+        </KeyboardAvoidingView>
+      </View>
+    </TouchableWithoutFeedback>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

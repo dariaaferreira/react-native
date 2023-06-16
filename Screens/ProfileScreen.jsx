@@ -4,6 +4,7 @@ import {
   Text,
   ImageBackground,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import photoBG from '../Images/photoBG.jpg';
 import Avatar from '../Images/Avatar.jpg';
@@ -11,6 +12,8 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import IconLogOut from 'react-native-vector-icons/MaterialIcons';
 
 const ProfileScreen = () => {
+  const navigation = useNavigation();
+
   return (
     <ImageBackground source={photoBG} style={styles.imageBg}>
       <View style={styles.container}>
@@ -20,17 +23,23 @@ const ProfileScreen = () => {
             style={styles.image}
           ></ImageBackground>
           <Icon 
-          style={styles.icon} 
-          size={25}
-          name='closecircleo' 
+            style={styles.icon} 
+            size={25}
+            name='closecircleo' 
           />
         </View>
-        <IconLogOut name='logout' style={styles.iconLogOut} size={24} />
+        <IconLogOut 
+          name='logout' 
+          style={styles.iconLogOut} 
+          size={24} 
+          onPress={() => navigation.navigate("Login")}
+        />
         <Text style={styles.text}>Natali Romanova</Text>
       </View>
     </ImageBackground>
   );
 };
+
 
 const styles = StyleSheet.create({
   imageBg: {

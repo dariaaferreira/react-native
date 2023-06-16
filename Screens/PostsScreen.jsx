@@ -1,29 +1,34 @@
 import React from "react";
+import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, View, Image } from "react-native";
 import Avatar from '../Images/Avatar.jpg';
 import { Header } from "../Components/Header";
 
-const PostsScreen = () => (
-  <View style={styles.container}>
-    <Header
-      pageTitle="Публікації"
-      showLogoutButton={true}
-      // onBackButtonPress={() => navigation.navigate("Login")}
-    />
+const PostsScreen = () => {
+  const navigation = useNavigation();
 
-    <View style={styles.user}>
-      <Image
-        source={Avatar}
-        style={styles.avatar}
+  return (
+    <View style={styles.container}>
+      <Header
+        pageTitle="Публікації"
+        showLogoutButton={true}
+        onLogoutButtonPress={() => navigation.navigate("Login")}
       />
 
-      <View style={styles.description}>
-        <Text style={styles.name}>Natali Romanova</Text>
-        <Text>email@example.com</Text>
+      <View style={styles.user}>
+        <Image
+          source={Avatar}
+          style={styles.avatar}
+        />
+
+        <View style={styles.description}>
+          <Text style={styles.name}>Natali Romanova</Text>
+          <Text>email@example.com</Text>
+        </View>
       </View>
     </View>
-  </View>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
