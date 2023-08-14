@@ -1,18 +1,20 @@
-import React from "react";
-import { useNavigation } from '@react-navigation/native';
-import { StyleSheet, Text, View, Image } from "react-native";
+import React from 'react';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import Avatar from '../Images/Avatar.jpg';
-import { Header } from "../Components/Header";
+import { Header } from '../Components/Header';
+import { Post } from '../Components/Post';
+import { useNavigation } from '@react-navigation/native';
 
-const PostsScreen = () => {
+const PostsScreen = ({ route }) => {
+  const { post } = route.params;
   const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
       <Header
-        pageTitle="Публікації"
+        pageTitle='Публікації'
         showLogoutButton={true}
-        onLogoutButtonPress={() => navigation.navigate("Login")}
+        onLogoutButtonPress={() => navigation.navigate('Login')}
       />
 
       <View style={styles.user}>
@@ -26,6 +28,11 @@ const PostsScreen = () => {
           <Text>email@example.com</Text>
         </View>
       </View>
+
+      <View style={styles.post}>
+        {post && <Post post={post} />}
+      </View>
+
     </View>
   );
 };
@@ -53,12 +60,17 @@ const styles = StyleSheet.create({
   description: {
     flexDirection: 'column',
     marginLeft: 8,
+    
   },
   name: {
     fontSize: 13,
     fontWeight: '700',
     lineHeight: 15.23,
   },
+  post: {
+    paddingLeft: 16,
+    paddingRight: 16,
+  }
 });
 
 export default PostsScreen;

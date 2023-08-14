@@ -12,12 +12,20 @@ const Home = () => {
   return (
     <View style={styles.container}>
       <Tabs.Navigator
-        initialRouteName='PostsScreen'
+        initialRouteName='Posts'
         screenOptions={({ route, navigation }) => ({
-          tabBarStyle: {
+          tabBarOptions: {
+            showLabel: false, 
+          },
+          tabBarStyle: [
+            {
             height: 70,
             width: '100%',
+            display: 'flex'
           },
+          null,
+          ],
+          
           tabBarIcon: ({ color, size, focused }) => {
             let iconName;
 
@@ -60,7 +68,11 @@ const Home = () => {
         <Tabs.Screen
           name='PostsScreen'
           component={PostsScreen}
-          options={{ headerShown: false }}
+          initialParams={{ post: null }}
+          options={{
+          headerShown: false,
+          tabBarShowLabel: false,
+        }}
         />
         <Tabs.Screen
           name='CreatePostsScreen'
@@ -70,7 +82,6 @@ const Home = () => {
             tabBarStyle: {
               display: 'none',
           }, }}
-        
         />
         <Tabs.Screen
           name='ProfileScreen'

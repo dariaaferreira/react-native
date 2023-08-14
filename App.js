@@ -4,6 +4,9 @@ import { createStackNavigator } from "@react-navigation/stack";
 import RegistrationScreen from './Screens/RegistrationScreen';
 import LoginScreen from './Screens/LoginScreen';
 import Home from "./Screens/Home";
+import CommentsScreen from './Screens/CommentsScreen';
+import MapScreen from './Screens/MapScreen';
+import PostsScreen from './Screens/PostsScreen';
 
 const MainStack = createStackNavigator();
 
@@ -25,6 +28,23 @@ export default function App() {
           name="Home"
           component={Home}
           options={{ headerShown: false }} 
+        />
+        <MainStack.Screen
+          name="Posts"
+          component={PostsScreen}
+          options={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="Comments"
+          component={CommentsScreen}
+          options={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="Map"
+          component={MapScreen}
+          options={{
+            headerShown: false,
+          }}
         />
       </MainStack.Navigator>
     </NavigationContainer>
