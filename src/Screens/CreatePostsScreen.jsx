@@ -21,33 +21,47 @@ import { Camera } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import * as Location from 'expo-location';
 import * as ImagePicker from 'expo-image-picker';
+import { useDispatch } from "react-redux";
+import { addPost } from "../redux/operations";
+import { useSelector } from "react-redux";
+import { getEmail } from "../redux/selectors";
 
 const CreatePostsScreen = () => {
   const [cameraRef, setCameraRef] = useState(null);
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
+  const [hasPermission, setHasPermission] = useState(null);
   const [uri, setUri] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [name, setName] = useState('');
   const [location, setLocation] = useState('');
   const [geoLocation, setGeoLocation] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const email = useSelector(getEmail);
 
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    (async () => {
-      const cameraPermission = await Camera.requestCameraPermissionsAsync();
-      const locationPermission = await Location.requestForegroundPermissionsAsync();
-
-      setHasCameraPermission(cameraPermission.status === 'granted');
-
-      if (locationPermission.status === 'granted') {
+    const requestLocationPermission = async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status === "granted") {
         let location = await Location.getCurrentPositionAsync({});
         const coords = {
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
         };
         setGeoLocation(coords);
+        return coords;
       }
+    };
+    requestLocationPermission();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      await MediaLibrary.requestPermissionsAsync();
+      setHasPermission(status === "granted");
     })();
   }, []);
 
@@ -60,32 +74,35 @@ const CreatePostsScreen = () => {
   };
 
   const handleAddPost = async () => {
-    if (name.trim() === '' || location.trim() === '') {
+    if (name.trim() === "" || location.trim() === "") {
       return;
     }
-
+    
     const post = {
       name: name.trim(),
       location: location.trim(),
-      geoLocation: geoLocation,
-      uri: uri,
+      geoLocation,
+      uri: selectedImage,
+      email,
     };
 
+    dispatch(addPost(post));
     resetForm();
-    navigation.navigate('PostsScreen', { post: post });
+    navigation.navigate("Home");
   };
 
   const resetForm = () => {
-    setName('');
-    setLocation('');
+    setName("");
+    setLocation("");
     setUri(null);
+    setSelectedImage(null);
   };
 
-  const isFormValid = name.trim() !== '' && location.trim() !== '';
+  const isFormValid = name.trim() !== "" && location.trim() !== "" && (uri || selectedImage);
 
   const handleSelectImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
+    if (status !== "granted") {
       return;
     }
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -94,8 +111,8 @@ const CreatePostsScreen = () => {
       aspect: [1, 1],
       quality: 1,
     });
-    if (!result.cancelled) {
-      setUri(result.uri);
+    if (!result.canceled) {
+      setSelectedImage(result.uri);
     }
   };
 
@@ -112,8 +129,14 @@ const CreatePostsScreen = () => {
           style={{ flex: 1 }}
         >
           {uri ? (
-            <ImageBackground style={styles.postImage} source={{ uri: uri }}>
-              <View style={styles.icon}>
+            <ImageBackground 
+              style={styles.postImage} 
+              source={{ uri: uri }}
+            >
+              <View style={{
+                    ...styles.icon,
+                    backgroundColor: "rgba(255, 255, 255, 0.3)",
+                  }}>
                 <IconCamera
                   name='camera'
                   size={24}
@@ -122,7 +145,21 @@ const CreatePostsScreen = () => {
                 />
               </View>
             </ImageBackground>
-          ) : (
+            ) : selectedImage ? (
+              <ImageBackground
+                source={{ uri: selectedImage }}
+                style={styles.postImage}
+              >
+                <View style={styles.icon}>
+                  <IconCamera
+                    name="camera"
+                    size={24}
+                    style={{ color: "#BDBDBD" }}
+                    onPress={() => setSelectedImage(null)}
+                  />
+                </View>
+              </ImageBackground>
+            ) : (
             <Camera style={styles.image} type={type} ref={setCameraRef}>
               <View>
                 <TouchableOpacity
@@ -140,7 +177,7 @@ const CreatePostsScreen = () => {
                     size={24}
                     style={{
                       color: '#BDBDBD',
-                      opacity: 0.5,
+                      opacity: 0.1,
                     }}
                   />
                 </TouchableOpacity>
@@ -156,8 +193,15 @@ const CreatePostsScreen = () => {
               </View>
             </Camera>
           )}
-          <Pressable onPress={handleSelectImage}>
+          <Pressable 
+            onPress={() => {
+              handleSelectImage();
+            }} 
+          >
             <Text style={styles.buttonText}>Завантажте фото</Text>
+          </Pressable>
+
+
             <View style={styles.containerInput}>
               <TextInput
                 style={styles.input}
@@ -209,7 +253,6 @@ const CreatePostsScreen = () => {
                 onPress={resetForm}
               />
             </Pressable>
-          </Pressable>
         </KeyboardAvoidingView>
       </View>
     </TouchableWithoutFeedback>
@@ -243,6 +286,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
+    opacity: 0.5,
   },
   containerInput: {
     position: 'relative',

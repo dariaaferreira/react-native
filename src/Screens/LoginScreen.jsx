@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { KeyboardAvoidingView, 
   View, 
@@ -10,14 +10,46 @@ import { KeyboardAvoidingView,
   StyleSheet, 
   TouchableWithoutFeedback,
   Keyboard } from 'react-native';
-  import photoBG from '../Images/photoBG.jpg';
+import photoBG from '../../Images/photoBG.jpg';
+import { useDispatch } from 'react-redux';
+import { onAuthStateChanged } from 'firebase/auth';
+import { getUserData } from '../firebase/firestore';
+import { setCurrentUser } from '../redux/slice';
+import { loginUser } from '../redux/operations';
+import { auth } from '../firebase/config';
 
 const LoginScreen = () => {
-  const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [focusedInput, setFocusedInput] = useState(null);
+  const [isAuth, setIsAuth] = useState(false);
+
+  const navigation = useNavigation();
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const uid = user.uid;
+        const data = await getUserData(uid);
+        dispatch(setCurrentUser({ ...data, uid }));
+        setIsAuth(true);
+        navigation.navigate('Home');
+      } else {
+        setIsAuth(false);
+      }
+    });
+  }, []);
+
+  const handleLogin = () => {
+    const user = { email, password };
+    dispatch(loginUser(user));
+
+    setEmail('');
+    setPassword('');
+  };
+  
 
   const handleInputFocus = (inputText) => {
     setFocusedInput(inputText);
@@ -43,20 +75,20 @@ const LoginScreen = () => {
 
             <View style={styles.containerInput}>
               <TextInput
-                style={[styles.input, focusedInput === "email" && styles.focus]}
-                placeholder="Адреса електронної пошти"
+                style={[styles.input, focusedInput === 'email' && styles.focus]}
+                placeholder='Адреса електронної пошти'
                 value={email}
                 onChangeText={setEmail}
-                onFocus={() => handleInputFocus("email")}
+                onFocus={() => handleInputFocus('email')}
                 onBlur={handleInputBlur}
               />
               <TextInput
-                style={[styles.input, styles.lastChildInput, focusedInput === "password" && styles.focus]}
-                placeholder="Пароль"
+                style={[styles.input, styles.lastChildInput, focusedInput === 'password' && styles.focus]}
+                placeholder='Пароль'
                 secureTextEntry={!showPassword}
                 value={password}
                 onChangeText={setPassword}
-                onFocus={() => handleInputFocus("password")}
+                onFocus={() => handleInputFocus('password')}
                 onBlur={handleInputBlur}
               />
 
@@ -71,8 +103,8 @@ const LoginScreen = () => {
 
             <TouchableOpacity
               style={styles.button}
-              title="Go to Home"
-              onPress={() => navigation.navigate('Home')}
+              title='Go to Home'
+              onPress={handleLogin}
             >
               <Text style={styles.buttonText}>Увійти</Text>
             </TouchableOpacity>
@@ -80,7 +112,7 @@ const LoginScreen = () => {
             <View style={styles.loginLinkContainer}>
               <Text style={styles.loginLinkText}>Немає акаунту?</Text>
               <TouchableOpacity
-                onPress={() => navigation.navigate("Registration")}
+                onPress={() => navigation.navigate('Registration')}
               >
                 <Text style={styles.loginLink}>Зареєструватися</Text>
               </TouchableOpacity>
@@ -151,7 +183,7 @@ const styles = StyleSheet.create({
     fontWeight: 400,
   },
   focus: {
-    borderColor: "#FF6C00",
+    borderColor: '#FF6C00',
     borderWidth: 1,
   },
   showPasswordButton: {

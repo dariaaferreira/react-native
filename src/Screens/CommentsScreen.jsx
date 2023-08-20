@@ -1,7 +1,7 @@
 import {
   View,
   StyleSheet,
-  Text,
+  ScrollView,
   TextInput,
   ImageBackground,
   Pressable,
@@ -11,28 +11,34 @@ import {
 } from 'react-native';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { getUser, getComments } from '../redux/selectors';
+import { useDispatch } from 'react-redux';
+import { createComment } from '../redux/operations';
 
 import { Header } from '../Components/Header';
 import { Comment } from '../Components/Comment';
 import IconArrow from 'react-native-vector-icons/AntDesign';
 
-const CommentsScreen = () => {
-  const [comments, setComments] = useState([]);
+const CommentsScreen = ({ route }) => {
   const [newComment, setNewComment] = useState('');
-
+  const { uri } = useSelector(getUser);
+  const comments = useSelector(getComments(route.params.post.id));
+  const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  const post = route.params.post;
 
   const handleAddComment = () => {
     if (newComment.trim() === '') {
       return;
     }
-
     const comment = {
+      uri: uri ?? null,
       text: newComment,
-      date: new Date().toLocaleDateString(),
+      date: new Date().getTime(),
     };
-
-    setComments((prevComments) => [...prevComments, comment]);
+    dispatch(createComment({ comment, postId: post.id }));
     setNewComment('');
     Keyboard.dismiss();
   };
@@ -55,14 +61,25 @@ const CommentsScreen = () => {
               marginBottom: 'auto',
             }}
           >
-            <ImageBackground style={styles.image}></ImageBackground>
-            {comments.map((comment, index) => (
-              <Comment
-                key={index}
-                text={comment.text}
-                date={comment.date}
-              />
-            ))}
+
+          <ScrollView style={{ marginBottom: 100, paddingHorizontal: 10 }}>
+            <ImageBackground
+              source={{ uri: post.url }}
+              style={styles.image}
+            ></ImageBackground>
+
+            {comments &&
+              comments.map((comment, index) => (
+                <Comment
+                  key={index}
+                  index={index}
+                  avatar={comment.uri}
+                  text={comment.text}
+                  date={comment.date}
+                />
+              ))}
+          </ScrollView> 
+            
           </View>
           <View style={styles.input}>
             <TextInput
@@ -70,7 +87,6 @@ const CommentsScreen = () => {
               placeholderTextColor='#BDBDBD'
               value={newComment}
               onChangeText={setNewComment}
-              //   onSubmitEditing={handleAddComment}
             />
             <Pressable onPress={handleAddComment}>
               <View style={styles.icon}>
@@ -104,6 +120,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#bdbdbd',
     borderRadius: 8,
     marginBottom: 32,
+    overflow: 'hidden',
   },
   input: {
     width: '100%',
