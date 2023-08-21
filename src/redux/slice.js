@@ -70,10 +70,12 @@ export const userSlice = createSlice({
       })
       .addCase(updateUser.pending, (state, action) => {})
       .addCase(updateUser.fulfilled, (state, action) => {
-        const { login, url, uid } = action.payload;
-        state.uid = uid;
+        const { email, login, url, uid } = action.payload;
+        state.email = email;
         state.login = login;
-        state.url = url;
+        state.uri = url;
+        state.uid = uid;
+        state.isAuth = true;
       })
       .addCase(updateUser.rejected, (state, action) => {
         state.error = action.payload;

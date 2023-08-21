@@ -5,6 +5,8 @@ export const setAvatarStorage = async (uri, uid) => {
   const storageRef = ref(storage, `avatars/${uid}.jpg`);
   const snapshot = await uploadBytes(storageRef, uri);
   const url = await getDownloadURL(snapshot.ref);
+
+  console.log(url);
   return url;
 };
 

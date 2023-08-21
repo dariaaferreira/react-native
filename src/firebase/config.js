@@ -12,7 +12,6 @@ const firebaseConfig = {
   storageBucket: "react-native-395916.appspot.com",
   messagingSenderId: "970404697384",
   appId: "1:970404697384:web:85510dd52788c8b0c02c1d",
-  measurementId: "G-0QMCQQMHNX"
 };
 
 const app = initializeApp(firebaseConfig);

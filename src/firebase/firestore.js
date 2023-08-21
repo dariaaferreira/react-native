@@ -6,7 +6,6 @@ import {
     updateDoc,
     getDocs,
     collection,
-    deleteDoc,
   } from 'firebase/firestore';
   import { db } from './config';
   
@@ -36,7 +35,7 @@ import {
   
   export const updateDBUser = async ({ url, uid }) => {
     try {
-      await updateDoc(doc(db, 'users', `${uid}`), { url: url });
+      await updateDoc(doc(db, 'users', `${uid}`), { uri: url });
     } catch (error) {
       throw error;
     }

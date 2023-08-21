@@ -99,9 +99,10 @@ export const updateUser = createAsyncThunk(
   async ({ uid, selectedImage, login, email }, { rejectWithValue }) => {
     try {
       let url = '';
-      if (selectedImage) {
-        const url = await uploadPostImage(selectedImage, uid);
-      }
+    if (selectedImage) {
+      url = await uploadPostImage(selectedImage, uid);
+    }
+
       await updateDBUser({ url, uid });
       return {
         url,

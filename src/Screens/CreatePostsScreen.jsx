@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Keyboard,
   Pressable,
+  ScrollView,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Header } from '../Components/Header';
@@ -128,6 +129,7 @@ const CreatePostsScreen = () => {
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={{ flex: 1 }}
         >
+        <ScrollView style={{ width: 400, marginTop: 70, paddingHorizontal: 20 }}>
           {uri ? (
             <ImageBackground 
               style={styles.postImage} 
@@ -253,6 +255,7 @@ const CreatePostsScreen = () => {
                 onPress={resetForm}
               />
             </Pressable>
+            </ScrollView>
         </KeyboardAvoidingView>
       </View>
     </TouchableWithoutFeedback>
@@ -265,7 +268,7 @@ const styles = StyleSheet.create({
     minHeight: 720,
     paddingTop: 32,
     backgroundColor: '#fff',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     alignItems: 'center',
   },
   postImage: {
@@ -273,7 +276,7 @@ const styles = StyleSheet.create({
     height: 240,
     backgroundColor: '#E8E8E8',
     borderRadius: 8,
-    marginTop: 32,
+    // marginTop: 32,
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
@@ -324,12 +327,11 @@ const styles = StyleSheet.create({
     width: 70,
     height: 40,
     backgroundColor: '#F6F6F6',
-    marginTop: 'auto',
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginBottom: 34,
+    marginBottom: 32,
     borderRadius: 20,
   },
   flipContainer: {
