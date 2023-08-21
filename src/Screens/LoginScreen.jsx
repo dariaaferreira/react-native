@@ -17,6 +17,7 @@ import { getUserData } from '../firebase/firestore';
 import { setCurrentUser } from '../redux/slice';
 import { loginUser } from '../redux/operations';
 import { auth } from '../firebase/config';
+import Loader from '../Components/Loader';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -24,6 +25,7 @@ const LoginScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [focusedInput, setFocusedInput] = useState(null);
   const [isAuth, setIsAuth] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigation = useNavigation();
   const dispatch = useDispatch()
@@ -35,9 +37,12 @@ const LoginScreen = () => {
         const data = await getUserData(uid);
         dispatch(setCurrentUser({ ...data, uid }));
         setIsAuth(true);
+        setIsLoading(false);
         navigation.navigate('Home');
       } else {
         setIsAuth(false);
+        setIsLoading(false);
+        navigation.navigate('Login');
       }
     });
   }, []);
@@ -71,6 +76,12 @@ const LoginScreen = () => {
           style={{ flex: 1, justifyContent: 'flex-end' }}
         >
           <View style={styles.formContainer}>
+          
+            {isLoading ? ( 
+              <Loader />
+            ) : (
+            <>
+
             <Text style={styles.titleHeader}>Увійти</Text>
 
             <View style={styles.containerInput}>
@@ -117,6 +128,8 @@ const LoginScreen = () => {
                 <Text style={styles.loginLink}>Зареєструватися</Text>
               </TouchableOpacity>
             </View>
+            </>
+            )}
           </View>
         </KeyboardAvoidingView>
       </View>
