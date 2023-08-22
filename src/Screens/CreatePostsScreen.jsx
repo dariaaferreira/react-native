@@ -89,7 +89,7 @@ const CreatePostsScreen = () => {
 
     dispatch(addPost(post));
     resetForm();
-    navigation.navigate("Home");
+    navigation.navigate('Home', { screen: 'PostsScreen' });
   };
 
   const resetForm = () => {
@@ -229,7 +229,12 @@ const CreatePostsScreen = () => {
                 onChangeText={setLocation}
               />
             </View>
-            <Pressable onPress={handleAddPost}>
+            <Pressable 
+              onPress={() => {
+                handleAddPost();
+                navigation.navigate('Home', { screen: 'PostsScreen' }); 
+              }}
+            >
               <View
                 style={[
                   styles.button,
