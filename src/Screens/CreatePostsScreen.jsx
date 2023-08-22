@@ -129,7 +129,7 @@ const CreatePostsScreen = () => {
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={{ flex: 1 }}
         >
-        <ScrollView style={{ width: 400, marginTop: 70, paddingHorizontal: 20 }}>
+        <ScrollView style={{ marginTop: 70, paddingHorizontal: 20 }}>
           {uri ? (
             <ImageBackground 
               style={styles.postImage} 
@@ -137,6 +137,7 @@ const CreatePostsScreen = () => {
             >
               <View style={{
                     ...styles.icon,
+                    marginTop: 0,
                     backgroundColor: "rgba(255, 255, 255, 0.3)",
                   }}>
                 <IconCamera
@@ -277,7 +278,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   postImage: {
-    width: 343,
+    width: 344,
     height: 240,
     backgroundColor: '#E8E8E8',
     borderRadius: 8,
@@ -287,6 +288,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     position: 'relative',
   },
+  image: {
+    width: 343,
+    height: 240,
+  },
   icon: {
     width: 60,
     height: 60,
@@ -294,6 +299,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 90,
     opacity: 0.5,
   },
   containerInput: {
